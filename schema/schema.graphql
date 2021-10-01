@@ -1,3 +1,17 @@
 type Query {
 	helloWorld: String!
+	book: [Book!]!
+}
+
+type Book {
+	title: String!
+	# publisher: String!
+	# author: String!
+	genre: [String!]!
+	yearOfPublication: Int!
+	description: String
+	price: Float!
+	rating: Float!
+	# inStock: Boolean!
+	# reviews: [Review]
 }
