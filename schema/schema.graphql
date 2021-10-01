@@ -1,12 +1,13 @@
 type Query {
 	helloWorld: String!
-	book: [Book!]!
+	books: [Book!]!
+	authors: [Author!]!
 }
 
 type Book {
 	title: String!
 	# publisher: String!
-	# author: String!
+	authors: [Author!]!
 	genre: [String!]!
 	yearOfPublication: Int!
 	description: String
@@ -14,4 +15,10 @@ type Book {
 	rating: Float!
 	# inStock: Boolean!
 	# reviews: [Review]
+}
+
+type Author {
+	name: String!
+	books: [Book!]!
+	age: Int
 }

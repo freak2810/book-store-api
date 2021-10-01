@@ -17,8 +17,16 @@ export type AdditionalEntityFields = {
   type?: Maybe<Scalars['String']>;
 };
 
+export type Author = {
+  __typename?: 'Author';
+  age?: Maybe<Scalars['Int']>;
+  books: Array<Book>;
+  name: Scalars['String'];
+};
+
 export type Book = {
   __typename?: 'Book';
+  authors: Array<Author>;
   description?: Maybe<Scalars['String']>;
   genre: Array<Scalars['String']>;
   price: Scalars['Float'];
@@ -29,7 +37,8 @@ export type Book = {
 
 export type Query = {
   __typename?: 'Query';
-  book: Array<Book>;
+  authors: Array<Author>;
+  books: Array<Book>;
   helloWorld: Scalars['String'];
 };
 
@@ -104,9 +113,10 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   AdditionalEntityFields: AdditionalEntityFields;
   String: ResolverTypeWrapper<Scalars['String']>;
+  Author: ResolverTypeWrapper<Author>;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
   Book: ResolverTypeWrapper<Book>;
   Float: ResolverTypeWrapper<Scalars['Float']>;
-  Int: ResolverTypeWrapper<Scalars['Int']>;
   Query: ResolverTypeWrapper<{}>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 };
@@ -115,9 +125,10 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   AdditionalEntityFields: AdditionalEntityFields;
   String: Scalars['String'];
+  Author: Author;
+  Int: Scalars['Int'];
   Book: Book;
   Float: Scalars['Float'];
-  Int: Scalars['Int'];
   Query: {};
   Boolean: Scalars['Boolean'];
 };
@@ -169,7 +180,15 @@ export type MapDirectiveArgs = {
 
 export type MapDirectiveResolver<Result, Parent, ContextType = any, Args = MapDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
+export type AuthorResolvers<ContextType = any, ParentType extends ResolversParentTypes['Author'] = ResolversParentTypes['Author']> = {
+  age?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  books?: Resolver<Array<ResolversTypes['Book']>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type BookResolvers<ContextType = any, ParentType extends ResolversParentTypes['Book'] = ResolversParentTypes['Book']> = {
+  authors?: Resolver<Array<ResolversTypes['Author']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   genre?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   price?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
@@ -180,11 +199,13 @@ export type BookResolvers<ContextType = any, ParentType extends ResolversParentT
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  book?: Resolver<Array<ResolversTypes['Book']>, ParentType, ContextType>;
+  authors?: Resolver<Array<ResolversTypes['Author']>, ParentType, ContextType>;
+  books?: Resolver<Array<ResolversTypes['Book']>, ParentType, ContextType>;
   helloWorld?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
+  Author?: AuthorResolvers<ContextType>;
   Book?: BookResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
 };
