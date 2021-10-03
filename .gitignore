@@ -3,3 +3,6 @@ node_modules
 .env
 .vscode
 .DS_Store
+yarn-*
+src/generated
+src/test

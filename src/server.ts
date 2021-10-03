@@ -1,22 +1,37 @@
 import { ApolloServer } from 'apollo-server-express';
-import * as express from 'express';
-import { buildSchema, Query, Resolver } from 'type-graphql';
+import express from 'express';
+import { buildSchema } from 'type-graphql';
 import 'reflect-metadata';
 
-@Resolver()
-class HelloWorldResolver {
-	@Query(() => String, { name: 'helloWorld' })
-	async hello() {
-		return 'Hello World!';
-	}
+import { PrismaClient } from '@prisma/client';
+
+interface Context {
+	prisma: PrismaClient;
 }
+
+import {
+	AuthorRelationsResolver,
+	AuthorCrudResolver,
+	BookRelationsResolver,
+	BookCrudResolver,
+} from './generated/typegraphql-prisma';
+
+const prisma = new PrismaClient();
 
 const main = async () => {
 	const schema = await buildSchema({
-		resolvers: [HelloWorldResolver],
+		resolvers: [
+			AuthorRelationsResolver,
+			AuthorCrudResolver,
+			BookRelationsResolver,
+			BookCrudResolver,
+		],
 	});
 
-	const server = new ApolloServer({ schema });
+	const server = new ApolloServer({
+		schema,
+		context: (): Context => ({ prisma }),
+	});
 
 	const app = express();
 
@@ -28,4 +43,5 @@ const main = async () => {
 		console.log('Server started 🚀 on http://localhost:4000/graphql')
 	);
 };
+
 main();

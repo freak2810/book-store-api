@@ -12,6 +12,8 @@ generator client {
 
 generator typegraphql {
   provider = "typegraphql-prisma"
+  output   = "../src/generated/typegraphql-prisma"
+
 }
 
 model Book {
@@ -21,4 +23,14 @@ model Book {
   genre            String[]
   yearOfPublishing DateTime @default(now())
   price            Float    @default(0)
+  author           Author   @relation(fields: [authorId], references: [id])
+  authorId         Int
+
+}
+
+model Author {
+  id   Int    @id @default(autoincrement())
+  name String
+  age  Int
+  Book Book[]
 }

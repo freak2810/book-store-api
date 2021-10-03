@@ -7,7 +7,7 @@
 		"outDir": "./dist",
 		"moduleResolution": "node",
 		// "declaration": false,
-		// "esModuleInterop": true,
+		"esModuleInterop": true,
 
 		// "composite": false,
 		// "removeComments": true,
